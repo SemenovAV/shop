@@ -1,5 +1,5 @@
-from django.shortcuts import render
 from django.views.generic import ListView
+
 from storefront.models import Article
 
 
@@ -10,3 +10,10 @@ class StoreFrontView(ListView):
     context_object_name = 'articles'
     paginate_by = 10
 
+
+class CategoriesView(ListView):
+    template_name = 'products.html'
+
+
+class CartView(ListView):
+    template_name = 'cart.html'
