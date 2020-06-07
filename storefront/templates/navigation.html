@@ -8,25 +8,25 @@
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'main' %}">
+      <li class="nav-item">
+        <a class="nav-link {% if request.get_full_path == '/' %} active{% endif %}" href="{% url 'main' %}">
           Главная</a>
       </li>
 {% for category in categories %}
     {% if category.get_subcategory %}
-        <li class="nav-item dropdown">
+        <li class="nav-item {% if category.slug in active %}active{% endif %} dropdown ">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown{{ category.pk }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{ category.title }}</a>
             <div class="dropdown-menu" aria-labelledby="dropdown{{ category.pk }}">
                {% for sub in category.get_subcategory %}
-                    <a class="dropdown-item" href="{{ sub.get_absolute_url}}">{{ sub.title }}</a>
-                {% endfor %}
+                    <a class="dropdown-item {% if sub.slug in active %} active{% endif %}" href="{{ sub.get_absolute_url}}">{{ sub.title }}</a>
+               {% endfor %}
             </div>
 
         </li>
     {% else %}
-        <li class="nav-item dropdown">
-            <a class="nav-link" href="{{ category.get_absolute_url }}" id="dropdown{{ category.pk }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li class="nav-item {% if category.slug in active %} active{% endif %}">
+            <a class="nav-link" href="{{ category.get_absolute_url }}">
                 {{ category.title }}</a>
 
         </li>
@@ -38,7 +38,7 @@
       Корзина</a>
 
 
-    <a class="btn btn-outline-success my-2 my-sm-0" role="button" href="./login.html">
+    <a class="btn btn-outline-success my-2 my-sm-0" role="button" href="{% url 'login' %}">
       Войти</a>
 
   </div>

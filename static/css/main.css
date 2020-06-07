@@ -1,3 +1,29 @@
 body {
   padding-top: 3.5rem;
 }
+.card {
+  min-width: 240px;
+  max-width: 320px
+}
+
+.card .card-text{
+  display: none;
+}
+
+.card.full .card-text{
+  display: block;
+}
+
+.card.full {
+  max-width:100%;
+}
+
+.card.full .card-body{
+  display: flex;
+  flex-direction: row;
+}
+
+.card.full .card-footer{
+  display: flex;
+  justify-content: flex-end;
+}

@@ -2,7 +2,6 @@
 {% load static %}
 {% block title %}login.html{% endblock %}
 {% block content %}
-    <h1>products.html</h1>
-    <p>{{ categories }}</p>
+    {% include 'products_list.html' with products=products %}
 {% endblock %}
 {% block footer%}{% endblock %}

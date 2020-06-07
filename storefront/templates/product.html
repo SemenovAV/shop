@@ -2,6 +2,6 @@
 {% load static %}
 {% block title %}login.html{% endblock %}
 {% block content %}
-    <h1>product.html</h1>
+{% include 'product_card.html' with full=True product=product %}
 {% endblock %}
 {% block footer%}{% endblock %}

@@ -1,5 +1,12 @@
 from django.db import models
 
+def get_all_ancestors(parent, url=''):
+    url = f'{parent.slug}/{url}'
+    if parent.parent_category:
+        return get_all_ancestors(parent.parent_category, url)
+    else:
+        return f'/{url}/'
+
 
 class Product(models.Model):
     title = models.CharField(
@@ -42,7 +49,11 @@ class Product(models.Model):
             return mark_safe(f'<a href="{self.img.url}" target="_blank"><img src="{self.img.url}" width="50"/></a>')
 
     def get_absolute_url(self):
-        return f'/{self.category.slug}/{self.slug}'
+        url = f'{self.slug}'
+        if self.category:
+            return get_all_ancestors(self.category, url)
+        else:
+            return f'/{url}/'
 
     class Meta:
         ordering = ('title',)
@@ -74,16 +85,18 @@ class Category(models.Model):
         max_length=200
     )
 
+    class Meta:
+        unique_together = ('parent_category', 'slug')
+
     def get_subcategory(self):
         return Category.objects.all().prefetch_related().filter(parent_category_id=self.id)
 
     def get_absolute_url(self):
+        url = f'{self.slug}'
         if self.parent_category:
-            return f'/{self.parent_category.slug}/{self.slug}/'
+            return get_all_ancestors(self.parent_category, url)
         else:
-            return f'/{self.slug}/'
-
-
+            return f'/{url}/'
 
 
 class ParentCategoryManager(models.Manager):
@@ -96,7 +109,6 @@ class ParentCategory(Category):
 
     def __str__(self):
         return self.title
-
 
     class Meta:
         proxy = True
@@ -115,7 +127,6 @@ class SubCategory(Category):
 
     def __str__(self):
         return f'{self.parent_category.title} - {self.title}'
-
 
     class Meta:
         proxy = True

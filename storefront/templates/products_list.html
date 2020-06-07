@@ -1,7 +1,15 @@
-<div class="container mb-5">
-    <div class="row">
-        {% for product in products %}
-            {% include 'product_card.html' with product=product %}
-        {% endfor %}
-    </div>
+<div class="container">
+{% if products %}
+
+<div class="card-deck">
+{% endif %}
+{% for product in products.all %}
+    {% include 'product_card.html' with product=product %}
+
+{% empty %}
+    <p class="alert alert-dark">Тут пока ничего нет!</p>
+{% endfor %}
+{% if products %}
+</div>
+{% endif %}
 </div>
