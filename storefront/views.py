@@ -19,13 +19,14 @@ class StoreFrontView(ListView):
         data = [escape(elem) for elem in request.path.split('/')]
         url = data[-2]
         self.extra_context = {
-            'active': data
-        }
+            'active': data,
+}
         if self.model.objects.filter(slug=url).exists():
             self.template_name = 'product.html'
             self.queryset = self.model.objects.filter(slug=url).first()
             self.context_object_name = 'product'
         elif self.model.objects.filter(category__slug=url).exists():
+            self.paginate_by = 12
             self.template_name = 'products.html'
             self.queryset = self.model.objects.filter(category__slug=url)
             self.context_object_name = 'products'

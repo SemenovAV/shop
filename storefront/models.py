@@ -76,6 +76,7 @@ class Category(models.Model):
         on_delete=models.PROTECT,
         null=True,
         blank=True,
+        related_name='categories'
     )
     order = models.IntegerField(
         default=0,
@@ -108,7 +109,10 @@ class ParentCategory(Category):
     objects = ParentCategoryManager()
 
     def __str__(self):
-        return self.title
+        if self.parent_category:
+            return f'{self.parent_category.title} - {self.title}'
+        else:
+            return self.title
 
     class Meta:
         proxy = True
