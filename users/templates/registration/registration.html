@@ -6,7 +6,7 @@
 {% block content %}
 
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<p>{{ form.errors}}</p>
 {% endif %}
 
 {% if next %}
@@ -18,27 +18,19 @@
     {% endif %}
 {% endif %}
 
-<form  class="form-signin" method="post" action="{% url 'login' %}">
+<form  class="form-registration text-center" method="post" action="{% url 'registration' %}">
   <img class="mb-4" src="{% static 'img/logo.svg'%}" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
+    <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
 {% csrf_token %}
-<table>
-<tr class="form-control">
-    <td class="sr-only">{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr class="form-control">
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
+    {{ form.username }}
+    {{ form.password1 }}
+    {{ form.password2 }}
 
-<input type="submit" value="login">
+
+<button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+    <p class="mt-5 mb-3 text-muted">© Просто магазин 2018</p>
 <input type="hidden" name="next" value="{{ next }}">
 </form>
-
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 
 {% endblock %}
 {% block footer %}{% endblock %}

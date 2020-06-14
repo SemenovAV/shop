@@ -1,7 +1,7 @@
 body {
     padding-top: 3.5rem;
     background-image: linear-gradient(35deg, #eeeeffaa, #eeffffaa, #ffe8a166, #dee2e666);
-
+    min-height: 100vh;
 }
 
 main {
@@ -34,6 +34,10 @@ main {
 .full .card-footer {
     display: flex;
     justify-content:space-around;
+}
+.footer {
+    position:fixed;
+    bottom: 0;
 }
 
 /*dropdown submenu*/
