@@ -8,37 +8,30 @@ main {
     background: transparent;
 }
 
-.card {
-    width: 320px
-}
-
-.card .product_info__img{
-    width: 200px;
-    height: 200px;
-
+.card-body .info-img{
+    display:flex;
 }
 .card-img {
-    max-height: 200px;
-    width:  auto;
-    max-width: 100%;
+    object-fit: contain;
+    width: 200px;
+    height: 200px;
 }
 .card-title{
     display: block;
-    min-height: 140px ;
+    min-height: 160px ;
+
 }
 .price{
     font-size: 2rem;
 }
-.card.full {
-    width: 100%;
-}
 
-.card.full .card-body {
+.full .card-body {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
-.card.full .card-footer {
+.full .card-footer {
     display: flex;
     justify-content:space-around;
 }
@@ -93,10 +86,24 @@ main {
 }
 
 /* 2 колонки на sm */
-@media (min-width: 576px) {
-    .card-columns {
-        -webkit-column-count: 2;
-        column-count: 2
+@media (max-width: 320px) {
+    .card {
+        flex:1 100%;
+    }
+}
+@media (max-width: 640px) {
+    .card {
+        flex:1 50%;
+    }
+}
+@media (max-width: 1280px) {
+    .card {
+        flex:1 25%;
+    }
+}
+@media (max-width: 1920px) {
+    .card {
+        flex:1 21%;
     }
 }
 

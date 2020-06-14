@@ -56,7 +56,7 @@ class Product(models.Model):
             return f'/{url}/'
 
     class Meta:
-        ordering = ('title',)
+        ordering = ('price',)
         index_together = (('id', 'slug'),)
         verbose_name = 'Product'
         verbose_name_plural = 'Products'

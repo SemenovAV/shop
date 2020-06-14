@@ -1,7 +1,7 @@
 <div class="container">
 {% if products %}
 
-<div class="card-columns">
+<div class="products d-flex flex-wrap justify-content-center">
 {% endif %}
 {% for product in products.all %}
     {% include 'product_card.html' with product=product %}

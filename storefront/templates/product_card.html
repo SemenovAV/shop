@@ -1,26 +1,28 @@
-<div class="card rounded text-center {% if full %}full{% endif %}">
-{% if full %}
-<div class="card-header">
-    <h2 class="text-dark">{{ product.title }}</h2>
-</div>
-{% endif %}
-    <div class="card-body">
-        <a href="{{ product.get_absolute_url }}">
-            <div class="product_info__img">
-                <img class="card-img" alt="{{ product.title }}" src="{{ product.img.url }}">
+<div class="text-center p-0 {% if full %}full col-12{% else %}col-12 col-md-6 col-sm-6 col-lg-4 col-xl-3{% endif %}">
+    <div class="border rounded my-card m-3 bg-white">
+        {% if full %}
+            <div class="card-header">
+                <h2 class="text-dark">{{ product.title }}</h2>
             </div>
-        </a>
-        <p class="card-title p-3 {% if full %} w-75 text-left{% endif %} ">{% if full %}{{ product.description }}{% else %}{{ product.title }}{% endif %}</p>
-    </div>
-    <div class="card-footer">
-        <p class="card-text lead price">{{ product.price }} р.</p>
-          <form method="post" action="{% url 'cart' %}">
-            <input type="hidden" name="csrfmiddlewaretoken"
-                   value="N4vcBqzjoYkU7OTDuAT8hq8srpvYX44nJsswuP7e3EYg0Hq8DgxuR0eiXWbSr5RZ">
-            <input type="hidden" name="merchandise_id" value="1">
-            <input type="submit" class="btn btn-outline-secondary" value="Добавить в корзину »">
-        </form>
+        {% endif %}
+        <div class="card-body">
+            <a href="{{ product.get_absolute_url }}">
 
+                    <img class="card-img m-auto" alt="{{ product.title }}" src="{{ product.img.url }}">
+            </a>
+            <p class="card-title p-3 {% if full %} w-75 text-left {% endif %} ">
+                {% if full %}{{ product.description }}{% else %}{{ product.title }}{% endif %}</p>
+        </div>
+        <div class="card-footer">
+            <p class="card-text lead price">{{ product.price }} р.</p>
+            <form method="post" action="{% url 'cart' %}">
+                <input type="hidden" name="csrfmiddlewaretoken"
+                       value="N4vcBqzjoYkU7OTDuAT8hq8srpvYX44nJsswuP7e3EYg0Hq8DgxuR0eiXWbSr5RZ">
+                <input type="hidden" name="merchandise_id" value="1">
+                <input type="submit" class="btn btn-outline-secondary" value="Добавить в корзину »">
+            </form>
+
+        </div>
     </div>
 </div>
 

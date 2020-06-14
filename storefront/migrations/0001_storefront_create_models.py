@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Product',
                 'verbose_name_plural': 'Products',
-                'ordering': ('title',),
+                'ordering': ('price',),
                 'index_together': {('id', 'slug')},
             },
         ),
