@@ -6,6 +6,7 @@ body {
 
 main {
     background: transparent;
+    margin-bottom: 40px;
 }
 
 .card-body .info-img{
@@ -36,8 +37,10 @@ main {
     justify-content:space-around;
 }
 .footer {
-    position:fixed;
+    position: sticky;
+    z-index: 4;
     bottom: 0;
+    background-color: var(--light);
 }
 
 /*dropdown submenu*/
