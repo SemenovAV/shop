@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views
 from users.forms import CustomAuthForm
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from storefront.views import MainView, CartView, StoreFrontView
 from users.views import RegisterFormView
 from django.conf import settings
@@ -32,6 +32,7 @@ urlpatterns = [
          ),
     path('registration/', RegisterFormView.as_view(), name='registration'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('cart', include('cart.urls', namespace='cart')),
     path('', MainView.as_view(), name='main'),
     path('cart/', CartView.as_view(), name='cart'),
 ]
