@@ -1,8 +1,7 @@
-from .models import ParentCategory, SubCategory
+from .models import ParentCategory
 
 
 def categories(request):
-
     context = {
         'categories': ParentCategory.objects.all(),
         }

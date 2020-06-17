@@ -1,5 +1,6 @@
 from django.views.generic import ListView
 from django.utils.html import escape
+from cart.forms import CartAddProductForm
 
 from storefront.models import Article, Product
 
@@ -20,7 +21,7 @@ class StoreFrontView(ListView):
         url = data[-2]
         self.extra_context = {
             'active': data,
-}
+            }
         if self.model.objects.filter(slug=url).exists():
             self.template_name = 'product.html'
             self.queryset = self.model.objects.filter(slug=url).first()
@@ -37,10 +38,4 @@ class StoreFrontView(ListView):
         return super(StoreFrontView, self).get(request, *args, **kwargs)
 
 
-class CartView(ListView):
-    template_name = 'cart.html'
 
-    def get_queryset(self):
-        return {
-            'test': 'test_data'
-        }

@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Your shopping cart
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    <div class="container">
+        <div class="card shopping-cart">
+            <div class="card-header bg-dark text-light">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                Shipping cart
+                <a href="" class="btn btn-outline-info btn-sm pull-right">Continiu shopping</a>
+                <div class="clearfix"></div>
+            </div>
+            <div class="card-body">
+                {% for item in cart %}
+
+                    {% include 'cart/card.html' with product=item.product item=item stock=stock %}
+
+                {% endfor %}
+                <!-- PRODUCT -->
+
+                <div class="pull-right">
+                    <a href="" class="btn btn-outline-secondary pull-right">
+                        Update shopping cart
+                    </a>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="pull-right" style="margin: 10px">
+                    <a href="" class="btn btn-success pull-right">Checkout</a>
+                    <div class="pull-right" style="margin: 5px">
+                        Total price: <b>{{ cart.get_total_price}}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,9 +1,11 @@
-from django.conf.urls import url
+from django.urls import path, re_path
 from . import views
 
-
 urlpatterns = [
-    url(r'^$', views.cart_detail, name='cart_detail'),
-    url(r'^add/(?P<product_id>\d+)/$', views.cart_add, name='cart_add'),
-    url(r'^remove/(?P<product_id>\d+)/$', views.cart_remove, name='cart_remove'),
+    path('', views.CartDetail.as_view(), name='cart_detail'),
+    path('add-unit/<int:product_id>/<int:quantity>/',views.CartAddUnit.as_view(), name='add_unit' ),
+    re_path('^remove/(?P<product_id>\d+)/$', views.CartRemove.as_view(), name='cart_remove'),
+    re_path(r'^add/(?P<product_id>\d+){1}/(?P<url>[/\w+-]+)*/$', views.CartAdd.as_view(), name='cart_add'),
+
+
 ]

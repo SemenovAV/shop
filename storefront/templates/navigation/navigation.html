@@ -22,8 +22,7 @@
 {% endfor %}
 
     </ul>
-    <a class="btn btn-outline-success my-2 my-sm-0" role="button" href="{% url 'cart' %}">
-      Корзина</a>
+      {% include 'cart/cart_button.html' %}
 
 
       {% include 'users_button.html' %}

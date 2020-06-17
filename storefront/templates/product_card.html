@@ -15,10 +15,9 @@
         </div>
         <div class="card-footer">
             <p class="card-text lead price">{{ product.price }} р.</p>
-            <form method="post" action="{% url 'cart' %}">
-                <input type="hidden" name="csrfmiddlewaretoken"
-                       value="N4vcBqzjoYkU7OTDuAT8hq8srpvYX44nJsswuP7e3EYg0Hq8DgxuR0eiXWbSr5RZ">
-                <input type="hidden" name="merchandise_id" value="1">
+            <form method="post" action="{% url 'cart:cart_add' product_id=product.id url=request.path %}">
+                {% csrf_token %}
+                {{ form }}
                 <input type="submit" class="btn btn-outline-secondary" value="Добавить в корзину »">
             </form>
 
