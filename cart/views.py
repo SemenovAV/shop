@@ -33,8 +33,7 @@ class CartAddUnit(FormView):
     product = None
 
     def get(self, request, *args, **kwargs):
-        print("!!!!!!!!")
-        print(get_object_or_404(Product, id=kwargs.get('product_id')))
+
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
