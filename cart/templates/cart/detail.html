@@ -14,18 +14,20 @@
                 <div class="clearfix"></div>
             </div>
             <div class="card-body">
+                <form id="form" method="post">
+                {% csrf_token %}
 
-                {% for item in cart %}
-                    {% with product=item.product %}
-                        <form id="form" action="{% url 'cart:add_unit' product_id=product.id %}" method="post">
+                    {% for item in cart %}
+                        {% with product=item.product %}
+
                             {% include 'cart/card.html' with product=item.product item=item stock=stock %}
-                        </form>
-                    {% endwith %}
-                {% endfor %}
-                <!-- PRODUCT -->
 
+                        {% endwith %}
+                    {% endfor %}
+                    <!-- PRODUCT -->
+                </form>
                 <div class="pull-right">
-                    <button type="submit" class="btn btn-outline-secondary pull-right">
+                    <button form="form" formaction="{% url 'cart:add_unit'%}" type="submit" class="btn btn-outline-secondary pull-right"  formmethod="post">
                         Пересчитать
                     </button>
                 </div>

@@ -7,11 +7,5 @@ class CartAddProductForm(forms.Form):
 
 
 class CartAddUnitForm(forms.Form):
-    quantity = forms.IntegerField(widget=forms.NumberInput(attrs={
-        'class': "form-control form-control-sm",
-        'value': 1
-    }))
-    update = forms.BooleanField(required=False, initial=False, widget=forms.HiddenInput)
+    pass
 
-
-CartAddUnitSet = formset_factory(CartAddUnitForm)

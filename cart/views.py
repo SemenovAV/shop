@@ -15,7 +15,7 @@ class CartAdd(FormView):
 
     def post(self, request, *args, **kwargs):
         self.success_url = kwargs.get('url')
-        print(self.success_url)
+
         self.cart = Cart(request)
         self.product = get_object_or_404(Product, id=kwargs.get('product_id'))
         return super().post(request, *args, **kwargs)
@@ -29,26 +29,26 @@ class CartAdd(FormView):
 class CartAddUnit(FormView):
     template_name = 'cart/detail.html'
     form_class = CartAddUnitForm
-    # initial =
     cart = None
     product = None
-    def get(self, request, *args, **kwargs):
-        print('!!!!!!!!!!!')
-        return super().get(request,*args,**kwargs)
+
+    def get_success_url(self):
+        return reverse('cart:cart_detail')
 
     def post(self, request, *args, **kwargs):
-        print(*args, **kwargs)
-        self.success_url = kwargs.get('url')
         self.cart = Cart(request)
-        self.product = get_object_or_404(Product, id=kwargs.get('product_id'))
-        context = self.get_context_data()
-        context['stock'] = range(self.product.stock)
-        return super().post(request, *args, **kwargs)
+        return super().post(CartAddUnit,request, *args, **kwargs)
 
     def form_valid(self, form):
-        self.cart.add(product=self.product)
-        self.cart.save()
+        print(form)
+        # self.cart.add(product=self.product)
+        # self.cart.save()
         return super().form_valid(form)
+    def form_invalid(self, form):
+        print(form)
+        # self.cart.add(product=self.product)
+        # self.cart.save()
+        return super().form_invalid(form)
 
 
 class CartRemove(RedirectView):
