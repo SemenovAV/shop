@@ -29,14 +29,15 @@ class CartAdd(FormView):
 class CartAddUnit(FormView):
     template_name = 'cart/detail.html'
     form_class = CartAddUnitForm
+    # initial =
     cart = None
     product = None
-
     def get(self, request, *args, **kwargs):
-
-        return super().get(request, *args, **kwargs)
+        print('!!!!!!!!!!!')
+        return super().get(request,*args,**kwargs)
 
     def post(self, request, *args, **kwargs):
+        print(*args, **kwargs)
         self.success_url = kwargs.get('url')
         self.cart = Cart(request)
         self.product = get_object_or_404(Product, id=kwargs.get('product_id'))
@@ -72,12 +73,17 @@ class CartRemove(RedirectView):
 #     cart.remove(product)
 #     return redirect('cart:cart_detail')
 
-class CartDetail(TemplateView):
+class CartDetail(FormView):
     template_name = 'cart/detail.html'
+    form_class = CartAddUnitForm
+
 
     def get(self, request, *args, **kwargs):
+        print(request.path)
         cart = Cart(request)
         return super().get(request, cart=cart, *args, **kwargs)
+
+
 
 # def cart_detail(request):
 #     cart = Cart(request)

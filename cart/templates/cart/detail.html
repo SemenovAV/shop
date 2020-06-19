@@ -17,12 +17,9 @@
 
                 {% for item in cart %}
                     {% with product=item.product %}
-                        {{ item.product }}
                         <form id="form" action="{% url 'cart:add_unit' product_id=product.id %}" method="post">
-
-
-                    {% include 'cart/card.html' with product=item.product item=item stock=stock %}
-                    </form>
+                            {% include 'cart/card.html' with product=item.product item=item stock=stock %}
+                        </form>
                     {% endwith %}
                 {% endfor %}
                 <!-- PRODUCT -->
@@ -39,7 +36,7 @@
                 <div class="pull-right" style="margin: 10px">
                     <a href="" class="btn btn-success pull-right">Оформить заказ</a>
                     <div class="pull-right" style="margin: 5px">
-                        Общая сумма: <b>{{ cart.get_total_price}}</b>
+                        Общая сумма: <b>{{ cart.get_total_price }}</b>
                     </div>
                 </div>
             </div>
