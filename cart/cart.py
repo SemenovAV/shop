@@ -26,10 +26,13 @@ class Cart(object):
             }
         self.save()
 
-    def add_unit(self, product, quantity):
-        product_id = str(product.id)
-        self.cart[product_id]['quantity'] += quantity
-        self.save()
+    def add_unit(self, product_id, quantity):
+        """
+        Изменить количество продукта в корзине
+        """
+        if product_id in self.cart:
+            self.cart[product_id]['quantity'] = quantity
+            self.save()
 
     def save(self):
         # Обновление сессии cart
@@ -51,7 +54,6 @@ class Cart(object):
         Перебор элементов в корзине и получение продуктов из базы данных.
         """
         product_ids = self.cart.keys()
-        # получение объектов product и добавление их в корзину
         products = Product.objects.filter(id__in=product_ids)
         for product in products:
             self.cart[str(product.id)]['product'] = product
@@ -76,6 +78,8 @@ class Cart(object):
                    self.cart.values())
 
     def clear(self):
-        # удаление корзины из сессии
+        """
+        Удаление корзины из сессии
+        """
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True

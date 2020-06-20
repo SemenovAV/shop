@@ -1,20 +1,24 @@
 <div class="row align-items-center">
     <div class="col-12 col-sm-12 col-md-2 text-center">
-        <img class="img-responsive" src="{{ product.img.url }}" alt="{{ product.title }}" width="120" height="80">
+        <img class="img-responsive" src="{{ item.img.value }}" alt="{{ item.title.value }}" width="120" height="80">
     </div>
     <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
-        <p class="product-name lead"><strong>{{ product.title}}</strong></p>
+        <p class="product-name lead"><strong>{{ item.title.value }}</strong></p>
     </div>
     <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
         <div class="col-3 col-sm-3 col-md-6 text-md-right" style="padding-top: 5px">
-            <h6><strong>{{ product.price }} <span class="text-muted">x</span></strong></h6>
+            <h6><strong>{{ item.price.value }} <span class="text-muted">x</span></strong></h6>
         </div>
         <div class="col-4 col-sm-4 col-md-4">
-            <input class="form-control form-control-sm" name="{{ product.id }}" type="number" value={{ item.quantity }} min=0 max={{ product.stock }}>
-
+            {{ item.quantity }}
+            {{ item.id }}
+            {{ item.title }}
+            {{ item.price }}
+            {{ item.total_price }}
+            {{ item.img }}
         </div>
         <div class="col-2 col-sm-2 col-md-2 text-right">
-            <a  href="{% url 'cart:cart_remove' product.id %}" type="button" class="btn btn-outline-danger btn-sm">
+            <a href="{% url 'cart:cart_remove' item.id.value %}" type="button" class="btn btn-outline-danger btn-sm">
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </a>
         </div>

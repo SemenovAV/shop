@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.views.generic import FormView, RedirectView, TemplateView
+from django.views.generic import FormView, RedirectView
 
 from storefront.models import Product
 from .cart import Cart
-from .forms import CartAddProductForm, CartAddUnitForm
+from .forms import CartAddProductForm, CartAddUnitFormSet
 
 
 class CartAdd(FormView):
@@ -28,27 +28,15 @@ class CartAdd(FormView):
 
 class CartAddUnit(FormView):
     template_name = 'cart/detail.html'
-    form_class = CartAddUnitForm
-    cart = None
-    product = None
-
-    def get_success_url(self):
-        return reverse('cart:cart_detail')
+    form_class = CartAddUnitFormSet
 
     def post(self, request, *args, **kwargs):
-        self.cart = Cart(request)
-        return super().post(CartAddUnit,request, *args, **kwargs)
+        print(request, args, kwargs)
+        return super().post(request, *args, **kwargs)
 
-    def form_valid(self, form):
-        print(form)
-        # self.cart.add(product=self.product)
-        # self.cart.save()
-        return super().form_valid(form)
-    def form_invalid(self, form):
-        print(form)
-        # self.cart.add(product=self.product)
-        # self.cart.save()
-        return super().form_invalid(form)
+
+
+
 
 
 class CartRemove(RedirectView):
@@ -75,16 +63,50 @@ class CartRemove(RedirectView):
 
 class CartDetail(FormView):
     template_name = 'cart/detail.html'
-    form_class = CartAddUnitForm
-
+    form_class = CartAddUnitFormSet
 
     def get(self, request, *args, **kwargs):
-        print(request.path)
-        cart = Cart(request)
-        return super().get(request, cart=cart, *args, **kwargs)
+        self.cart = Cart(request)
+        self.initial = []
+        for item in self.cart:
+            self.initial.append({
+                'id': item['product'].id,
+                'price': item['price'],
+                'quantity': item['quantity'],
+                'title': item['product'].title,
+                'total_price': item['total_price'],
+                'img': item['product'].img.url
+            })
+        return super().get(request, cart=self.cart, *args, **kwargs)
 
+    def get_success_url(self):
+        return reverse('cart:cart_detail')
 
+    def form_valid(self, form):
+        cart = Cart(self.request)
+        data = form.cleaned_data
 
-# def cart_detail(request):
-#     cart = Cart(request)
-#     return render(request, 'cart/detail.html', {'cart': cart})
+        for item in data:
+            cart.add_unit(str(item.get('id')),item.get('quantity'))
+
+        return super(CartDetail,self).form_valid(form)
+    # def get_form(self, form_class=None):
+    #     """Return an instance of the form to be used in this view."""
+    #     if form_class is None:
+    #         form_class = self.get_form_class()
+    #     print(form_class(**self.get_form_kwargs()))
+    #     return form_class(**self.get_form_kwargs())
+    #
+    # def get_form_kwargs(self):
+    #     """Return the keyword arguments for instantiating the form."""
+    #     kwargs = {
+    #         'initial': self.get_initial(),
+    #         'prefix': self.get_prefix(),
+    #     }
+    #
+    #     if self.request.method in ('POST', 'PUT'):
+    #         kwargs.update({
+    #             'initial': self.get_initial(),
+    #             'data': self.request.POST,
+    #             })
+    #     return kwargs
