@@ -26,19 +26,6 @@ class CartAdd(FormView):
         return super().form_valid(form)
 
 
-class CartAddUnit(FormView):
-    template_name = 'cart/detail.html'
-    form_class = CartAddUnitFormSet
-
-    def post(self, request, *args, **kwargs):
-        print(request, args, kwargs)
-        return super().post(request, *args, **kwargs)
-
-
-
-
-
-
 class CartRemove(RedirectView):
     template_name = 'cart/detail.html'
     cart = None
@@ -55,17 +42,30 @@ class CartRemove(RedirectView):
         return super().get(request, *args, **kwargs)
 
 
-# def cart_remove(request, product_id):
-#     cart = Cart(request)
-#     product = get_object_or_404(Product, id=product_id)
-#     cart.remove(product)
-#     return redirect('cart:cart_detail')
-
 class CartDetail(FormView):
     template_name = 'cart/detail.html'
     form_class = CartAddUnitFormSet
 
     def get(self, request, *args, **kwargs):
+
+        referer = request.META.get('HTTP_REFERER')
+        if referer:
+            referer = referer.split('/')
+            referer_host = referer[2]
+            referer_path = '/'.join(referer[3:])
+            host = request.get_host()
+            print(referer_path, referer_host)
+            self.extra_context = {
+                'referer': referer_path if referer and referer[2] == host else '/'
+
+            }
+        else:
+            self.extra_context = {
+                'referer':  '/'
+
+            }
+
+
         self.cart = Cart(request)
         self.initial = []
         for item in self.cart:
@@ -85,28 +85,7 @@ class CartDetail(FormView):
     def form_valid(self, form):
         cart = Cart(self.request)
         data = form.cleaned_data
-
         for item in data:
-            cart.add_unit(str(item.get('id')),item.get('quantity'))
+            cart.add_unit(str(item.get('id')), item.get('quantity'))
 
-        return super(CartDetail,self).form_valid(form)
-    # def get_form(self, form_class=None):
-    #     """Return an instance of the form to be used in this view."""
-    #     if form_class is None:
-    #         form_class = self.get_form_class()
-    #     print(form_class(**self.get_form_kwargs()))
-    #     return form_class(**self.get_form_kwargs())
-    #
-    # def get_form_kwargs(self):
-    #     """Return the keyword arguments for instantiating the form."""
-    #     kwargs = {
-    #         'initial': self.get_initial(),
-    #         'prefix': self.get_prefix(),
-    #     }
-    #
-    #     if self.request.method in ('POST', 'PUT'):
-    #         kwargs.update({
-    #             'initial': self.get_initial(),
-    #             'data': self.request.POST,
-    #             })
-    #     return kwargs
+        return super(CartDetail, self).form_valid(form)

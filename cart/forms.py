@@ -6,7 +6,7 @@ class CartAddProductForm(forms.Form):
 
 
 class CartAddUnitForm(forms.Form):
-    quantity = forms.IntegerField(min_value=0, widget=forms.NumberInput(attrs={
+    quantity = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={
         'class': 'form-control form-control-sm'
     }))
     price = forms.IntegerField(min_value=0, widget=forms.HiddenInput)

@@ -31,8 +31,9 @@ class Cart(object):
         Изменить количество продукта в корзине
         """
         if product_id in self.cart:
-            self.cart[product_id]['quantity'] = quantity
-            self.save()
+            if quantity > 0:
+                self.cart[product_id]['quantity'] = quantity
+                self.save()
 
     def save(self):
         # Обновление сессии cart

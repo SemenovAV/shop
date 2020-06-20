@@ -10,7 +10,7 @@
             <div class="card-header bg-dark text-light">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                 Корзина
-                <a href="" class="btn btn-outline-info btn-sm pull-right">Продолжить покупки</a>
+                <a href="{{ referer }}" class="btn btn-outline-info btn-sm pull-right">Продолжить покупки</a>
                 <div class="clearfix"></div>
             </div>
             <div class="card-body">
@@ -18,13 +18,8 @@
                 {% csrf_token %}
                 {{ form.management_form }}
                     {% for item in form %}
-
-
-                            {% include 'cart/card.html' with form=item%}
-
-
+                        {% include 'cart/card.html' with form=item%}
                     {% endfor %}
-                    <!-- PRODUCT -->
                 </form>
                 <div class="pull-right">
                     <button form="form"  type="submit" class="btn btn-outline-secondary pull-right"  formmethod="post">
@@ -36,7 +31,7 @@
             </div>
             <div class="card-footer">
                 <div class="pull-right" style="margin: 10px">
-                    <a href="" class="btn btn-success pull-right">Оформить заказ</a>
+                    <button form="form" type="submit" class="btn btn-success pull-right">Оформить заказ</button>
                     <div class="pull-right" style="margin: 5px">
                         Общая сумма: <b>{{ cart.get_total_price }}</b>
                     </div>
