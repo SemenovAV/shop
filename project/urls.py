@@ -14,24 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.auth import views
-from users.forms import CustomAuthForm
 from django.urls import path, re_path, include
 from storefront.views import MainView, StoreFrontView
-from users.views import RegisterFormView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', views.LoginView.as_view(
-        template_name="registration/login.html",
-        authentication_form=CustomAuthForm),
-         name='login'
-         ),
-    path('registration/', RegisterFormView.as_view(), name='registration'),
-    path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('users/', include(('users.urls','users'))),
     path('cart/', include(('cart.urls','cart'))),
     path('catalog/', include(('storefront.urls','storefront'))),
     path('', MainView.as_view(), name='main'),
@@ -40,4 +31,3 @@ urlpatterns = [
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
 
-# urlpatterns += [re_path('[a-z0-9-_]+', StoreFrontView.as_view(), name='by_category'), ]

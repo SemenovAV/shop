@@ -7,6 +7,7 @@ from .models import CustomUser
 
 class CustomRegistrationForm(UserCreationForm):
     model = CustomUser
+
     username = UsernameField(
         widget=forms.TextInput(
             attrs={

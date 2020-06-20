@@ -18,7 +18,7 @@
     {% endif %}
 {% endif %}
 
-<form  class="form-registration text-center" method="post" action="{% url 'registration' %}">
+<form  class="form-registration text-center" method="post" action="{% url 'users:registration' %}">
   <img class="mb-4" src="{% static 'img/logo.svg'%}" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
 {% csrf_token %}

@@ -1,0 +1,16 @@
+from django.contrib.auth import views
+from django.urls import path
+
+from users.forms import CustomAuthForm
+from users.views import RegisterFormView
+
+urlpatterns = [
+    path('login/', views.LoginView.as_view(
+        template_name="registration/login.html",
+        authentication_form=CustomAuthForm
+    ),
+         name='login'
+         ),
+    path('registration/', RegisterFormView.as_view(), name='registration'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
+]
