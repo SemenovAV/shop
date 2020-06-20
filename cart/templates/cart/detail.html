@@ -34,7 +34,7 @@
             </div>
              <div class="card-footer">
                 <div class="pull-right" style="margin: 10px">
-                    <button form="form" type="submit" class="btn btn-success pull-right ">Оформить заказ</button>
+                    {% include 'orders/order_button.html' with form_id='form' %}
                     <div class="pull-right" style="margin: 5px">
                         Общая сумма: <b>{{ cart.get_total_price }}</b>
                     </div>

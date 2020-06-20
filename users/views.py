@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import authenticate
 from django.urls import reverse
 from django.views.generic.edit import FormView

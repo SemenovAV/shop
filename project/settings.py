@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storefront',
     'users',
-    'cart'
+    'cart',
+    'orders'
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CART_SESSION_ID = 'cart'
+USERS_SESSION_ID = 'users'
