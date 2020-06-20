@@ -47,25 +47,9 @@ class CartDetail(FormView):
     form_class = CartAddUnitFormSet
 
     def get(self, request, *args, **kwargs):
-
-        referer = request.META.get('HTTP_REFERER')
-        if referer:
-            referer = referer.split('/')
-            referer_host = referer[2]
-            referer_path = '/'.join(referer[3:])
-            host = request.get_host()
-            print(referer_path, referer_host)
-            self.extra_context = {
-                'referer': referer_path if referer and referer[2] == host else '/'
-
-            }
-        else:
-            self.extra_context = {
-                'referer':  '/'
-
-            }
-
-
+        self.extra_context = {
+            'referer': self.get_return_url()
+        }
         self.cart = Cart(request)
         self.initial = []
         for item in self.cart:
@@ -75,12 +59,30 @@ class CartDetail(FormView):
                 'quantity': item['quantity'],
                 'title': item['product'].title,
                 'total_price': item['total_price'],
-                'img': item['product'].img.url
+                'img': item['product'].img.url,
+                'stock': item['product'].stock
             })
         return super().get(request, cart=self.cart, *args, **kwargs)
 
     def get_success_url(self):
         return reverse('cart:cart_detail')
+
+    def get_return_url(self):
+        referer = self.request.META.get('HTTP_REFERER')
+        host = self.request.get_host()
+        if referer:
+            referer = referer.split('/')
+            referer_host = referer[2]
+            if referer_host == host:
+                return reverse('main') + '/'.join(referer[3:])
+        else:
+            return reverse('main')
+
+    def get_form(self, form_class=None):
+        formset = self.form_class(**self.get_form_kwargs())
+        for form in formset:
+            formset.add_fields(form, None, int(form['stock'].value()))
+        return formset
 
     def form_valid(self, form):
         cart = Cart(self.request)

@@ -5,7 +5,7 @@ def get_all_ancestors(parent, url=''):
     if parent.parent_category:
         return get_all_ancestors(parent.parent_category, url)
     else:
-        return f'/{url}/'
+        return f'{url}'
 
 
 class Product(models.Model):
@@ -53,7 +53,7 @@ class Product(models.Model):
         if self.category:
             return get_all_ancestors(self.category, url)
         else:
-            return f'/{url}/'
+            return f'{url}'
 
     class Meta:
         ordering = ('price',)
@@ -97,7 +97,7 @@ class Category(models.Model):
         if self.parent_category:
             return get_all_ancestors(self.parent_category, url)
         else:
-            return f'/{url}/'
+            return f'{url}'
 
 
 class ParentCategoryManager(models.Manager):

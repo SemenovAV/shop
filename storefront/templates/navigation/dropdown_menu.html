@@ -6,5 +6,9 @@
     </ul>
 
 {% else %}
-   <a class="dropdown-item {% if category.slug in active %} active{% endif %}" href="{{ category.get_absolute_url}}">{{ category.title }}</a>
+   <a
+           class="dropdown-item {% if category.slug in active %} active{% endif %}"
+           href="{{ category.get_absolute_url}}">
+       {{ category.title }}
+   </a>
 {% endif %}

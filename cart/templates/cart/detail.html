@@ -13,30 +13,39 @@
                 <a href="{{ referer }}" class="btn btn-outline-info btn-sm pull-right">Продолжить покупки</a>
                 <div class="clearfix"></div>
             </div>
-            <div class="card-body">
+         {% if form|length > 0 %}
+             <div class="card-body">
                 <form id="form" method="post">
-                {% csrf_token %}
-                {{ form.management_form }}
-                    {% for item in form %}
-                        {% include 'cart/card.html' with form=item%}
-                    {% endfor %}
-                </form>
+                        {% csrf_token %}
+                        {{ form.management_form }}
+                        {% for item in form %}
+                            {% include 'cart/card.html' with form=item %}
+                        {% endfor %}
+                    </form>
                 <div class="pull-right">
-                    <button form="form"  type="submit" class="btn btn-outline-secondary pull-right"  formmethod="post">
-                        Пересчитать
-                    </button>
-                </div>
-
-
+                        <button form="form"
+                                type="submit"
+                                class="btn btn-outline-secondary pull-right"
+                                formmethod="post"
+                        >
+                            Пересчитать
+                        </button>
+                    </div>
             </div>
-            <div class="card-footer">
+             <div class="card-footer">
                 <div class="pull-right" style="margin: 10px">
-                    <button form="form" type="submit" class="btn btn-success pull-right">Оформить заказ</button>
+                    <button form="form" type="submit" class="btn btn-success pull-right ">Оформить заказ</button>
                     <div class="pull-right" style="margin: 5px">
                         Общая сумма: <b>{{ cart.get_total_price }}</b>
                     </div>
                 </div>
             </div>
+         {% else %}
+             <div class="card-body">
+             <p class="alert alert-dark">Тут пока ничего нет!</p>
+             </div>
+        {% endif %}
+
         </div>
     </div>
 {% endblock %}

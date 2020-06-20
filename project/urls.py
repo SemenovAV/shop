@@ -33,10 +33,11 @@ urlpatterns = [
     path('registration/', RegisterFormView.as_view(), name='registration'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('cart/', include(('cart.urls','cart'))),
+    path('catalog/', include(('storefront.urls','storefront'))),
     path('', MainView.as_view(), name='main'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
 
-urlpatterns += [re_path('[a-z0-9-_]+', StoreFrontView.as_view(), name='by_category'), ]
+# urlpatterns += [re_path('[a-z0-9-_]+', StoreFrontView.as_view(), name='by_category'), ]

@@ -1,6 +1,12 @@
 <div class="nav-item {% if category.slug in active %}active{% endif %} dropdown ">
- <a class="nav-link dropdown-toggle {% if category.slug in active %} active{% endif %}" href="{{ category.get_absolute_url}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-     {{ category.title }}</a>
+ <a
+         class="nav-link dropdown-toggle{% if category.slug in active %} active{% endif %}"
+         href="{% url 'storefront:catalog' category.get_absolute_url %}"
+         data-toggle="dropdown"
+         aria-haspopup="true"
+         aria-expanded="false">
+     {{ category.title }}
+ </a>
     {% include 'navigation/dropdown_menu.html' with category=category active=active %}
 </div>
 

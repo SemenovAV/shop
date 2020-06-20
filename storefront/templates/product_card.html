@@ -6,7 +6,7 @@
             </div>
         {% endif %}
         <div class="card-body">
-            <a href="{{ product.get_absolute_url }}">
+            <a href="{% url 'storefront:catalog' product.get_absolute_url %}">
 
                     <img class="card-img m-auto" alt="{{ product.title }}" src="{{ product.img.url }}">
             </a>

@@ -1,6 +1,5 @@
 from django.views.generic import ListView
 from django.utils.html import escape
-from cart.forms import CartAddProductForm
 
 from storefront.models import Article, Product
 
@@ -17,8 +16,12 @@ class StoreFrontView(ListView):
     model = Product
 
     def get(self, request, *args, **kwargs):
-        data = [escape(elem) for elem in request.path.split('/')]
-        url = data[-2]
+        url = kwargs.get('absolute_url')
+        print(url)
+        if url:
+            url = url.split('/')
+        data = [escape(elem) for elem in url]
+        url = data[-1]
         self.extra_context = {
             'active': data,
             }

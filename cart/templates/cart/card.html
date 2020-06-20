@@ -16,6 +16,7 @@
             {{ item.price }}
             {{ item.total_price }}
             {{ item.img }}
+            {{ item.stock }}
         </div>
         <div class="col-2 col-sm-2 col-md-2 text-right">
             <a href="{% url 'cart:cart_remove' item.id.value %}" type="button" class="btn btn-outline-danger btn-sm">
