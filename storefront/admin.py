@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin.views.main import ChangeList
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from django.utils.translation import gettext_lazy as _
 
 from storefront.models import Product, Article, SubCategory, ParentCategory
 from .forms import SubCategoryForm
@@ -25,7 +26,7 @@ class MyInline(admin.TabularInline):
     model = Product
     fields = ['title', 'description', 'price']
 
-    list_filter = ['available', 'created', 'updated' ]
+    list_filter = ['available', 'created', 'updated']
     extra = 0
     can_delete = False
 
@@ -64,6 +65,7 @@ class MyInline(admin.TabularInline):
 
 @admin.register(Product)
 class AdminProduct(admin.ModelAdmin):
+    view_on_site = False
     list_display = ['title', 'category', 'thumbnail']
     search_fields = ['title']
     list_per_page = 30
@@ -73,7 +75,7 @@ class AdminProduct(admin.ModelAdmin):
 
 class ParentCategoryInline(admin.TabularInline):
     model = SubCategory
-    extra = 1
+    extra = 0
 
 
 class SubCategoryInline(admin.TabularInline):
@@ -87,6 +89,7 @@ class SubCategoryInline(admin.TabularInline):
 
 @admin.register(ParentCategory)
 class ParentCategoryAdmin(admin.ModelAdmin):
+    view_on_site = False
     exclude = ('parent_category',)
     inlines = (ParentCategoryInline,)
     prepopulated_fields = {"slug": ("title",)}
@@ -94,9 +97,16 @@ class ParentCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(SubCategory)
 class SubCategoryAdmin(admin.ModelAdmin):
+    view_on_site = False
     form = SubCategoryForm
     inlines = (ParentCategoryInline, MyInline)
     prepopulated_fields = {"slug": ("title",)}
+
+    def get_inline_formsets(self, request, formsets, inline_instances, obj=None):
+        print(inline_instances, formsets)
+        # formsets = filter(lambda x: True if x.queryset else False ,formsets)
+
+        return super(SubCategoryAdmin, self).get_inline_formsets(request, formsets, inline_instances, obj=None)
 
 
 @admin.register(Article)
