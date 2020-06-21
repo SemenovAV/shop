@@ -1,7 +1,7 @@
 from django.apps import AppConfig
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _
 
 
 class OrdersConfig(AppConfig):
     name = 'orders'
-    verbose_name = _('order')
+    verbose_name = _('orders')
