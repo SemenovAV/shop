@@ -25,6 +25,7 @@ urlpatterns = [
     path('users/', include(('users.urls','users'))),
     path('cart/', include(('cart.urls','cart'))),
     path('catalog/', include(('storefront.urls','storefront'))),
+    path('orders/', include(('orders.urls', 'orders'))),
     path('', MainView.as_view(), name='main'),
 ]
 

@@ -1,6 +1,6 @@
 
 {% if request.user.is_authenticated %}
-<button form="{{ form_id }}" type="submit" class="btn btn-success pull-right ">Оформить заказ</button>
+<button form="{{ form_id }}" formaction="{% url 'orders:order_create' %}" type="submit" class="btn btn-success pull-right ">Оформить заказ</button>
 {% else %}
     <p class="text-muted">
         Для оформления заказа необходимо
