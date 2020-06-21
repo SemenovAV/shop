@@ -1,10 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Ваш заказ
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    <div class="container">
+        <div class="card shopping-cart d-flex justify-content-center">
+            <div class="card-header bg-dark text-light">
+                <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                Заказ
+                <div class="pull-right">{% include 'user_label.html' %}</div>
+                <div class="clearfix"></div>
+            </div>
+         {% if cart|length > 0 %}
+             <div class="card-body">
+                <form id="form" method="post">
+                    {% csrf_token %}
+                    {{form.user}}
+                    {% for item in cart %}
+                        {% include 'orders/order/card.html' with form=item %}
+                    {% endfor %}
+                </form>
+            </div>
+             <div class="card-footer">
+                <div class="pull-right" style="margin: 10px">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" form="form">Подтвердить</button>
+                    <div class="pull-right" style="margin: 5px">
+                        Общая сумма: <b>{{ cart.get_total_price }}</b>
+                    </div>
+                </div>
+            </div>
+         {% else %}
+             <div class="card-body">
+             <p class="alert alert-dark">Тут пока ничего нет!</p>
+             </div>
+        {% endif %}
+
+        </div>
+    </div>
+{% endblock %}
