@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
 from .models import Order, OrderItem
 
@@ -11,7 +12,7 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['user', 'paid',
-                    'created', 'updated']
+    list_display = ['user', 'paid', 'get_total_quantity',
+                    'created']
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
