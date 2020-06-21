@@ -45,6 +45,7 @@ class CartRemove(RedirectView):
 class CartDetail(FormView):
     template_name = 'cart/detail.html'
     form_class = CartAddUnitFormSet
+    cart = None
 
     def get(self, request, *args, **kwargs):
         self.extra_context = {
@@ -81,7 +82,7 @@ class CartDetail(FormView):
     def get_form(self, form_class=None):
         formset = self.form_class(**self.get_form_kwargs())
         for form in formset:
-            formset.add_fields(form, None, int(form['stock'].value()))
+            formset.add_fields(form=form, index=None, value=int(form['stock'].value()))
         return formset
 
     def form_valid(self, form):

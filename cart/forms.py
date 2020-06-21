@@ -4,13 +4,15 @@ from django.forms.formsets import formset_factory, BaseFormSet
 
 class BaseAddUnitSet(BaseFormSet):
     def add_fields(self, form, index, value=None):
-        super(BaseAddUnitSet,self).add_fields(form, index)
+        super(BaseAddUnitSet, self).add_fields(form, index)
         form.fields['quantity'] = forms.IntegerField(
             min_value=1,
             max_value=value,
             widget=forms.NumberInput(attrs={
-        'class': 'form-control form-control-sm'
-    }))
+                'class': 'form-control form-control-sm'
+            }))
+
+
 class CartAddProductForm(forms.Form):
     pass
 
