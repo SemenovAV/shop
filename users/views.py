@@ -41,11 +41,3 @@ class RegisterFormView(FormView):
             return reverse('main')
 
 
-class CustomUserLoginForm(LoginView):
-    template_name = 'registration/login.html'
-    form_class = CustomAuthForm
-
-    def form_valid(self, form):
-        data = form.cleaned_data
-        print(data)
-        return super(CustomUserLoginForm, self).form_valid(form)
