@@ -1,26 +1,37 @@
-from django.conf import settings
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic.edit import FormView
 
-from .forms import CustomRegistrationForm
+from .forms import CustomRegistrationForm, CustomAuthForm
 
 
 class RegisterFormView(FormView):
     form_class = CustomRegistrationForm
     template_name = "registration/registration.html"
+    referer = None
+
+    def get(self, request, *args, **kwargs):
+        self.referer = request.META.get('HTTP_REFERER')
+        return super(RegisterFormView, self).get(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.save()
         data = form.cleaned_data
-        authenticate(username=data.get('username'), password=data.get('password'))
-        return super(RegisterFormView, self).form_valid(form)
+        username = data['email']
+        password = data['password2']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(self.request, user)
+
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        referer = self.request.META.get('HTTP_REFERER')
         host = self.request.get_host()
-        if referer:
-            referer = referer.split('/')
+        if self.referer:
+            referer = self.referer.split('/')
             referer_host = referer[2]
             if referer_host == host:
                 return reverse('main') + '/'.join(referer[3:])
@@ -28,3 +39,13 @@ class RegisterFormView(FormView):
                 return reverse('main')
         else:
             return reverse('main')
+
+
+class CustomUserLoginForm(LoginView):
+    template_name = 'registration/login.html'
+    form_class = CustomAuthForm
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        print(data)
+        return super(CustomUserLoginForm, self).form_valid(form)

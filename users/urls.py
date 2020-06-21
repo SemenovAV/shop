@@ -2,12 +2,12 @@ from django.contrib.auth import views
 from django.urls import path
 
 from users.forms import CustomAuthForm
-from users.views import RegisterFormView
+from users.views import RegisterFormView, CustomUserLoginForm
 
 urlpatterns = [
-    path('login/', views.LoginView.as_view(
+    path('login/', CustomUserLoginForm.as_view(
         template_name="registration/login.html",
-        authentication_form=CustomAuthForm
+        form_class=CustomAuthForm
     ),
          name='login'
          ),

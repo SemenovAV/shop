@@ -6,9 +6,7 @@ from .models import CustomUser
 
 
 class CustomRegistrationForm(UserCreationForm):
-    model = CustomUser
-
-    username = UsernameField(
+    email = UsernameField(
         widget=forms.TextInput(
             attrs={
                 'autofocus': True,
@@ -48,14 +46,14 @@ class CustomRegistrationForm(UserCreationForm):
             }
         ),
     )
+
     class Meta:
         model = CustomUser
-        fields = ("username", )
-        field_classes = {'username': UsernameField}
+        fields = ("email",)
+        field_classes = {'email': UsernameField}
 
 
 class CustomAuthForm(AuthenticationForm):
-    model = CustomUser
     username = UsernameField(
         widget=forms.TextInput(
             attrs={
@@ -81,6 +79,11 @@ class CustomAuthForm(AuthenticationForm):
             }
         ),
     )
+
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
+        field_classes = {'username': UsernameField}
 
 
 class CustomUserCreationForm(UserCreationForm):
